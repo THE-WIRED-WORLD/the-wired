@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: #000;
+  font-family: 'VT323', monospace;
+  color: #FFB000;
+}
+
+/* CRT Screen */
+.crt-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Scanlines overlay */
+.crt-screen::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* Screen curvature vignette */
+.crt-screen::before {
+  content: '';
+  position: fixed;
+  inset: -2%;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 60%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  pointer-events: none;
+  z-index: 99;
+}
+
+/* Flicker animation */
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.85; }
+  94% { opacity: 1; }
+  97% { opacity: 0.9; }
+  98% { opacity: 1; }
+}
+
+.crt-flicker {
+  animation: flicker 4s infinite;
+}
+
+/* Terminal text glow */
+.terminal-text {
+  color: #FFB000;
+  text-shadow:
+    0 0 5px rgba(255, 176, 0, 0.5),
+    0 0 10px rgba(255, 176, 0, 0.3),
+    0 0 20px rgba(255, 176, 0, 0.1);
+}
+
+.terminal-text-green {
+  color: #00FF41;
+  text-shadow:
+    0 0 5px rgba(0, 255, 65, 0.5),
+    0 0 10px rgba(0, 255, 65, 0.3),
+    0 0 20px rgba(0, 255, 65, 0.1);
+}
+
+/* Blinking cursor */
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* Power on effect */
+@keyframes powerOn {
+  0% {
+    transform: scaleY(0.01) scaleX(0.5);
+    filter: brightness(10);
+  }
+  20% {
+    transform: scaleY(0.01) scaleX(1);
+    filter: brightness(5);
+  }
+  40% {
+    transform: scaleY(1) scaleX(1);
+    filter: brightness(2);
+  }
+  100% {
+    transform: scaleY(1) scaleX(1);
+    filter: brightness(1);
+  }
+}
+
+.power-on {
+  animation: powerOn 0.8s ease-out forwards;
+}
